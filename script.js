@@ -5,8 +5,10 @@ const images = [
   "images/5I5A8096.jpg",
   "images/5I5A8115.jpg",
   "images/5I5A8126.jpg",
-  "images/IMG_2051 のコピー.jpg",
-  "images/IMG_3557 のコピー.jpg",
+  "images/5I5A8126_2.jpg",
+  "images/5I5A8126_3.jpg",
+  "images/IMG_2051.jpg",
+  "images/IMG_3557.jpg",
   "images/IMG_4489.JPG",
   "images/IMG_4490.JPG",
   "images/IMG_4491.JPG",
@@ -15,7 +17,7 @@ const images = [
   "images/IMG_4496.JPG",
   "images/IMG_7581 2.JPG",
   "images/IMG_8906.PNG",
-  "images/souta(1).jpg"
+  "images/souta1.jpg"
 ];
 
 const thumbsContainer = document.getElementById("thumbs");
