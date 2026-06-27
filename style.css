@@ -26,6 +26,56 @@ body::before {
   text-align: center;
 }
 
+.sns {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.sns-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.sns-link:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.sns-link::before {
+  content: "";
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.sns-tiktok::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M12.45 2.08h2.63v1.73h-.01a4.72 4.72 0 01-4.24-2.1v6.26a5.39 5.39 0 10.01 10.78 5.43 5.43 0 004.07-1.7v-3.25a2.48 2.48 0 01-1.7.63 2.48 2.48 0 01-2.48-2.48V2.08z'/%3E%3C/svg%3E");
+}
+
+.sns-x::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M22.46 6.01c-.8.35-1.65.59-2.55.69a4.45 4.45 0 001.95-2.46 8.9 8.9 0 01-2.82 1.08 4.44 4.44 0 00-7.57 4.05 12.6 12.6 0 01-9.16-4.64 4.44 4.44 0 001.37 5.93 4.4 4.4 0 01-2.01-.55v.06a4.45 4.45 0 003.56 4.36 4.5 4.5 0 01-1.99.08 4.45 4.45 0 004.15 3.09 8.9 8.9 0 01-5.51 1.9A9.1 9.1 0 012 19.54a12.5 12.5 0 006.79 1.99c8.14 0 12.59-6.74 12.59-12.59l-.01-.57A9.04 9.04 0 0024 5.6a8.8 8.8 0 01-2.54.7z'/%3E%3C/svg%3E");
+}
+
+.sns-instagram::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3ClinearGradient id='g' x1='0%' y1='0%' x2='100%' y2='100%'%3E%3Cstop offset='0%' stop-color='%23feda75'/%3E%3Cstop offset='25%' stop-color='%23fa7e1e'/%3E%3Cstop offset='50%' stop-color='%23d62976'/%3E%3Cstop offset='75%' stop-color='%239b228d'/%3E%3Cstop offset='100%' stop-color='%233f51b5'/%3E%3C/linearGradient%3E%3Cpath fill='url(%23g)' d='M7.75 2h8.5A5.75 5.75 0 0122 7.75v8.5A5.75 5.75 0 0116.25 22h-8.5A5.75 5.75 0 012 16.25v-8.5A5.75 5.75 0 017.75 2zm0 1.5A4.25 4.25 0 003.5 7.75v8.5A4.25 4.25 0 007.75 20.5h8.5A4.25 4.25 0 0020.5 16.25v-8.5A4.25 4.25 0 0016.25 3.5h-8.5zM12 7a5 5 0 110 10 5 5 0 010-10zm0 1.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7zm4.75-.88a1.13 1.13 0 110 2.25 1.13 1.13 0 010-2.25z'/%3E%3C/svg%3E");
+}
+
 .controls {
   max-width: 1040px;
   margin: 40px auto;
