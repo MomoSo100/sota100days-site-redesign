@@ -1,3 +1,5 @@
+// List of images available in the `images/` folder.
+// Add or remove entries as you add photos to the folder.
 const images = [
   "images/5I5A7953.jpg",
   "images/5I5A8052.jpg",
@@ -23,27 +25,77 @@ const images = [
 const thumbsContainer = document.getElementById("thumbs");
 const selectedIcon = document.getElementById("selected-icon");
 const selectedLabel = document.getElementById("selected-label");
-const randomBtn = document.getElementById("randomBtn");
 
-let currentIndex = 0;
+// Target aspect ratios to classify images into groups.
+const targets = {
+  '16:9': 16 / 9,
+  '4:3': 4 / 3,
+  '3:4': 3 / 4,
+  '9:16': 9 / 16
+};
 
-function setBackground(index) {
-  const imageUrl = images[index];
-  document.body.style.backgroundImage = `url('${imageUrl}')`;
-  selectedIcon.src = imageUrl;
-  selectedLabel.textContent = imageUrl.replace(/^images\//, "");
-  document.querySelectorAll(".thumb").forEach((thumb, thumbIndex) => {
-    thumb.classList.toggle("active", thumbIndex === index);
-  });
-  currentIndex = index;
+// Preload images and read their natural sizes to determine aspect ratios.
+function preloadImages(list) {
+  const promises = list.map(src => new Promise(resolve => {
+    const img = new Image();
+    img.src = src;
+    img.onload = () => resolve({ src, width: img.naturalWidth, height: img.naturalHeight, ratio: img.naturalWidth / img.naturalHeight });
+    img.onerror = () => resolve({ src, width: 0, height: 0, ratio: 1 });
+  }));
+  return Promise.all(promises);
 }
 
-function createThumbs() {
-  images.forEach((src, index) => {
+function classifyByRatio(items) {
+  const groups = { '16:9': [], '4:3': [], '3:4': [], '9:16': [] };
+  items.forEach(item => {
+    const r = item.ratio || 1;
+    // Find closest target ratio
+    let bestKey = '16:9';
+    let bestDiff = Infinity;
+    for (const key in targets) {
+      const diff = Math.abs(r - targets[key]);
+      if (diff < bestDiff) {
+        bestDiff = diff;
+        bestKey = key;
+      }
+    }
+    groups[bestKey].push(item.src);
+  });
+  return groups;
+}
+
+function pickGroupForViewport() {
+  const vr = window.innerWidth / Math.max(1, window.innerHeight);
+  // find nearest target
+  let bestKey = '16:9';
+  let bestDiff = Infinity;
+  for (const key in targets) {
+    const diff = Math.abs(vr - targets[key]);
+    if (diff < bestDiff) {
+      bestDiff = diff;
+      bestKey = key;
+    }
+  }
+  return bestKey;
+}
+
+function setBackgroundUrl(url) {
+  document.body.style.backgroundImage = `url('${url}')`;
+  if (selectedIcon) selectedIcon.src = url;
+  if (selectedLabel) selectedLabel.textContent = url.replace(/^images\\//, "");
+  // update active thumb
+  document.querySelectorAll(".thumb").forEach(thumb => thumb.classList.remove('active'));
+  const activeThumb = Array.from(document.querySelectorAll('.thumb img')).find(img => img.src && img.src.includes(url));
+  if (activeThumb && activeThumb.parentElement) activeThumb.parentElement.classList.add('active');
+}
+
+function createThumbs(list) {
+  thumbsContainer.innerHTML = '';
+  list.forEach((src, index) => {
     const thumb = document.createElement("button");
     thumb.type = "button";
     thumb.className = "thumb";
-    thumb.addEventListener("click", () => setBackground(index));
+    thumb.addEventListener("click", () => setBackgroundUrl(src));
 
     const img = document.createElement("img");
     img.src = src;
@@ -54,11 +106,20 @@ function createThumbs() {
   });
 }
 
-function randomBackground() {
-  const nextIndex = Math.floor(Math.random() * images.length);
-  setBackground(nextIndex);
-}
+// On each page load, preload images, classify them, then pick a random image
+// from the group that best matches the current viewport aspect ratio.
+preloadImages(images).then(items => {
+  const groups = classifyByRatio(items);
+  const groupKey = pickGroupForViewport();
+  const candidates = groups[groupKey].length ? groups[groupKey] : items.map(i => i.src);
+  const pick = candidates[Math.floor(Math.random() * candidates.length)];
+  setBackgroundUrl(pick);
+  // build thumbnails (use full list for thumbs)
+  createThumbs(items.map(i => i.src));
+});
 
-createThumbs();
-setBackground(0);
-randomBtn.addEventListener("click", randomBackground);
+// Hide or remove the old random button behavior — the page now auto-randomizes on load.
+const randomBtn = document.getElementById("randomBtn");
+if (randomBtn) {
+  randomBtn.style.display = 'none';
+}
