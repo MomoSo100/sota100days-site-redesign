@@ -1,37 +1,54 @@
-// List of images available in the `images/` folder.
-// Add or remove entries as you add photos to the folder.
-const images = [
-  "images/5I5A7953.jpg",
-  "images/5I5A8052.jpg",
-  "images/5I5A8086.jpg",
-  "images/5I5A8096.jpg",
-  "images/5I5A8115.jpg",
-  "images/5I5A8126.jpg",
-  "images/5I5A8126_2.jpg",
-  "images/5I5A8126_3.jpg",
-  "images/IMG_2051.jpg",
-  "images/IMG_3557.jpg",
-  "images/IMG_4489.JPG",
-  "images/IMG_4490.JPG",
-  "images/IMG_4491.JPG",
-  "images/IMG_4494.JPG",
-  "images/IMG_4495.JPG",
-  "images/IMG_4496.JPG",
-  "images/IMG_7581 2.JPG",
-  "images/IMG_8906.PNG",
-  "images/souta1.jpg"
-];
-
 const thumbsContainer = document.getElementById("thumbs");
 const selectedIcon = document.getElementById("selected-icon");
 const selectedLabel = document.getElementById("selected-label");
 
-// Target aspect ratios to classify images into groups.
-const targets = {
-  '16:9': 16 / 9,
-  '4:3': 4 / 3,
-  '3:4': 3 / 4,
-  '9:16': 9 / 16
+const categoryImages = {
+  pc: [
+    // 横長PC用画像をここに追加
+  ],
+  tablet_h: [
+    "images/tablet_h/5I5A8126_2.jpg",
+    "images/tablet_h/IMG_4490.JPG",
+    "images/tablet_h/IMG_4491.JPG",
+    "images/tablet_h/IMG_4494.JPG",
+    "images/tablet_h/IMG_4495.JPG",
+    "images/tablet_h/IMG_4496.JPG"
+  ],
+  tablet_v: [
+    "images/tablet_v/5I5A7953.jpg",
+    "images/tablet_v/5I5A8052.jpg",
+    "images/tablet_v/5I5A8086.jpg",
+    "images/tablet_v/5I5A8096.jpg",
+    "images/tablet_v/5I5A8115.jpg",
+    "images/tablet_v/5I5A8126.jpg",
+    "images/tablet_v/5I5A8126_3.jpg",
+    "images/tablet_v/IMG_2051.jpg",
+    "images/tablet_v/IMG_3557.jpg",
+    "images/tablet_v/IMG_4489.JPG",
+    "images/tablet_v/IMG_7581 2.JPG",
+    "images/tablet_v/IMG_8906.PNG",
+    "images/tablet_v/souta1.jpg"
+  ],
+  phone: [
+    // スマホ用画像をここに追加
+  ]
+};
+
+const viewToCategory = () => {
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const ratio = vw / Math.max(vh, 1);
+
+  if (ratio >= 1.5) {
+    return 'pc';
+  }
+  if (ratio >= 1.2) {
+    return 'tablet_h';
+  }
+  if (ratio >= 0.75) {
+    return 'tablet_v';
+  }
+  return 'phone';
 };
 
 // Preload images and read their natural sizes to determine aspect ratios.
@@ -45,44 +62,18 @@ function preloadImages(list) {
   return Promise.all(promises);
 }
 
-function classifyByRatio(items) {
-  const groups = { '16:9': [], '4:3': [], '3:4': [], '9:16': [] };
-  items.forEach(item => {
-    const r = item.ratio || 1;
-    // Find closest target ratio
-    let bestKey = '16:9';
-    let bestDiff = Infinity;
-    for (const key in targets) {
-      const diff = Math.abs(r - targets[key]);
-      if (diff < bestDiff) {
-        bestDiff = diff;
-        bestKey = key;
-      }
-    }
-    groups[bestKey].push(item.src);
-  });
-  return groups;
+function getCurrentCategory() {
+  return viewToCategory();
 }
 
-function pickGroupForViewport() {
-  const vr = window.innerWidth / Math.max(1, window.innerHeight);
-  // find nearest target
-  let bestKey = '16:9';
-  let bestDiff = Infinity;
-  for (const key in targets) {
-    const diff = Math.abs(vr - targets[key]);
-    if (diff < bestDiff) {
-      bestDiff = diff;
-      bestKey = key;
-    }
-  }
-  return bestKey;
+function pickRandomImage(list) {
+  return list[Math.floor(Math.random() * list.length)];
 }
 
 function setBackgroundUrl(url) {
   document.body.style.backgroundImage = `url('${url}')`;
   if (selectedIcon) selectedIcon.src = url;
-  if (selectedLabel) selectedLabel.textContent = url.replace(/^images\\//, "");
+  if (selectedLabel) selectedLabel.textContent = url.replace(/^images\//, "");
   // update active thumb
   document.querySelectorAll(".thumb").forEach(thumb => thumb.classList.remove('active'));
   const activeThumb = Array.from(document.querySelectorAll('.thumb img')).find(img => img.src && img.src.includes(url));
@@ -106,16 +97,16 @@ function createThumbs(list) {
   });
 }
 
-// On each page load, preload images, classify them, then pick a random image
-// from the group that best matches the current viewport aspect ratio.
-preloadImages(images).then(items => {
-  const groups = classifyByRatio(items);
-  const groupKey = pickGroupForViewport();
-  const candidates = groups[groupKey].length ? groups[groupKey] : items.map(i => i.src);
-  const pick = candidates[Math.floor(Math.random() * candidates.length)];
+function getAllImageList() {
+  return [...categoryImages.pc, ...categoryImages.tablet_h, ...categoryImages.tablet_v, ...categoryImages.phone];
+}
+
+preloadImages(getAllImageList()).then(items => {
+  const category = getCurrentCategory();
+  const candidates = categoryImages[category].length ? categoryImages[category] : getAllImageList();
+  const pick = pickRandomImage(candidates);
   setBackgroundUrl(pick);
-  // build thumbnails (use full list for thumbs)
-  createThumbs(items.map(i => i.src));
+  createThumbs(getAllImageList());
 });
 
 // Hide or remove the old random button behavior — the page now auto-randomizes on load.

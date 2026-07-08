@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  min-height: 100vh;
   font-family: sans-serif;
   background: #111;
   color: #fff;
@@ -7,6 +8,7 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 body::before {
@@ -114,6 +116,10 @@ body::before {
   margin-bottom: 24px;
 }
 
+#randomBtn {
+  display: none !important;
+}
+
 button {
   cursor: pointer;
   border: none;
@@ -160,7 +166,16 @@ button:hover {
   transform: translateY(-2px);
 }
 
-@media(max-width: 640px) {
+@media(max-width: 960px) {
+  .hero {
+    padding: 0 24px;
+  }
+
+  .controls {
+    margin: 24px auto;
+    padding: 0 12px 24px;
+  }
+
   .preview-card {
     flex-direction: column;
     text-align: center;
@@ -168,6 +183,29 @@ button:hover {
 
   .preview-card img {
     margin: 0 auto;
+  }
+}
+
+@media(max-width: 640px) {
+  body {
+    background-attachment: scroll;
+  }
+
+  .preview-card {
+    gap: 12px;
+  }
+
+  .thumb {
+    width: 74px;
+    height: 74px;
+  }
+
+  h1 {
+    font-size: 32px;
+  }
+
+  p {
+    font-size: 18px;
   }
 }
 
