@@ -4,51 +4,65 @@ const selectedLabel = document.getElementById("selected-label");
 
 const categoryImages = {
   pc: [
-    // 横長PC用画像をここに追加
+    "images/pc/1.png",
+    "images/pc/2.png",
+    "images/pc/3.png",
+    "images/pc/4.png",
+    "images/pc/5.png",
+    "images/pc/6.png",
+    "images/pc/7.png",
+    "images/pc/8.png"
   ],
   tablet_h: [
-    "images/tablet_h/5I5A8126_2.jpg",
-    "images/tablet_h/IMG_4490.JPG",
-    "images/tablet_h/IMG_4491.JPG",
-    "images/tablet_h/IMG_4494.JPG",
-    "images/tablet_h/IMG_4495.JPG",
-    "images/tablet_h/IMG_4496.JPG"
+    "images/tablet_h/1.png",
+    "images/tablet_h/2.png",
+    "images/tablet_h/3.png",
+    "images/tablet_h/4.png",
+    "images/tablet_h/5.png",
+    "images/tablet_h/6.png",
+    "images/tablet_h/7.png",
+    "images/tablet_h/8.png",
+    "images/tablet_h/9.png",
+    "images/tablet_h/10.png"
   ],
   tablet_v: [
-    "images/tablet_v/5I5A7953.jpg",
-    "images/tablet_v/5I5A8052.jpg",
-    "images/tablet_v/5I5A8086.jpg",
-    "images/tablet_v/5I5A8096.jpg",
-    "images/tablet_v/5I5A8115.jpg",
-    "images/tablet_v/5I5A8126.jpg",
-    "images/tablet_v/5I5A8126_3.jpg",
-    "images/tablet_v/IMG_2051.jpg",
-    "images/tablet_v/IMG_3557.jpg",
-    "images/tablet_v/IMG_4489.JPG",
-    "images/tablet_v/IMG_7581 2.JPG",
-    "images/tablet_v/IMG_8906.PNG",
-    "images/tablet_v/souta1.jpg"
+    "images/tablet_v/1.png",
+    "images/tablet_v/2.png",
+    "images/tablet_v/3.png",
+    "images/tablet_v/4.png",
+    "images/tablet_v/5.png",
+    "images/tablet_v/6.png",
+    "images/tablet_v/7.png",
+    "images/tablet_v/8.png",
+    "images/tablet_v/9.png"
   ],
   phone: [
-    // スマホ用画像をここに追加
+    "images/phone/1.png",
+    "images/phone/2.png",
+    "images/phone/3.png",
+    "images/phone/4.png",
+    "images/phone/5.png",
+    "images/phone/6.png",
+    "images/phone/7.png",
+    "images/phone/8.png",
+    "images/phone/9.png",
+    "images/phone/10.png",
+    "images/phone/11.png",
+    "images/phone/12.png"
   ]
 };
 
 const viewToCategory = () => {
   const vw = window.innerWidth;
   const vh = window.innerHeight;
-  const ratio = vw / Math.max(vh, 1);
 
-  if (ratio >= 1.5) {
+  if (vw >= 1200) {
     return 'pc';
   }
-  if (ratio >= 1.2) {
-    return 'tablet_h';
+  if (vw <= 640) {
+    return 'phone';
   }
-  if (ratio >= 0.75) {
-    return 'tablet_v';
-  }
-  return 'phone';
+  return vw >= vh ? 'tablet_h' : 'tablet_v';
 };
 
 // Preload images and read their natural sizes to determine aspect ratios.
