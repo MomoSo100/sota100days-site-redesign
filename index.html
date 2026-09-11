@@ -20,7 +20,7 @@
 
   <section class="controls">
     <div class="preview-card">
-      <img id="selected-icon" src="images/tablet_v/1.png" alt="選択中の背景画像">
+      <img id="selected-icon" src="images/dev/portrait/IMG_9494.JPG" alt="選択中の背景画像">
       <p id="selected-label">画像をクリックして背景を切り替えます</p>
     </div>
 
@@ -28,5 +28,33 @@
   </section>
 
   <script src="script.js"></script>
+  <script>
+    (function(){
+      const backgrounds = [
+        'images/dev/portrait/IMG_9494.JPG',
+        'images/dev/portrait/IMG_9495.JPG',
+        'images/dev/portrait/IMG_9496.JPG'
+      ];
+
+      function pickRandom(prev){
+        if (!prev) return backgrounds[Math.floor(Math.random()*backgrounds.length)];
+        const others = backgrounds.filter(b => b !== prev);
+        return others[Math.floor(Math.random()*others.length)];
+      }
+
+      // set initial random background on load
+      let current = backgrounds[Math.floor(Math.random()*backgrounds.length)];
+      document.body.style.backgroundImage = `url('${current}')`;
+      const selectedIcon = document.getElementById('selected-icon');
+      if (selectedIcon) selectedIcon.src = current;
+
+      // rotate every 5s
+      setInterval(()=>{
+        current = pickRandom(current);
+        document.body.style.backgroundImage = `url('${current}')`;
+        if (selectedIcon) selectedIcon.src = current;
+      }, 5000);
+    })();
+  </script>
 </body>
 </html>
