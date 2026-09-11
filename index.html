@@ -6,7 +6,7 @@
   <title>百華爽太</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body data-img-root="images/home">
   <div id="bg-wrap">
     <div class="bg-layer" id="bg1"></div>
     <div class="bg-layer" id="bg2"></div>
@@ -29,7 +29,7 @@
 
   <section class="controls">
     <div class="preview-card">
-      <img id="selected-icon" src="images/dev/portrait/IMG_9494.JPG" alt="選択中の背景画像">
+      <img id="selected-icon" src="images/home/portrait/IMG_9494.JPG" alt="選択中の背景画像">
       <p id="selected-label">画像をクリックして背景を切り替えます</p>
     </div>
 
@@ -39,10 +39,12 @@
   <script src="script.js"></script>
   <script>
     (function(){
+      const base = (document.body && document.body.dataset && document.body.dataset.imgRoot) ? document.body.dataset.imgRoot : 'images/home';
       const backgrounds = [
-        'images/dev/portrait/IMG_9494.JPG',
-        'images/dev/portrait/IMG_9495.JPG',
-        'images/dev/portrait/IMG_9496.JPG'
+        `${base}/portrait/IMG_9494.JPG`,
+        `${base}/portrait/IMG_9495.JPG`,
+        `${base}/portrait/IMG_9496.JPG`,
+        `${base}/portrait/IMG_9497.JPG`
       ];
       const layerA = document.getElementById('bg1');
       const layerB = document.getElementById('bg2');

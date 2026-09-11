@@ -27,34 +27,37 @@
       <img id="selected-icon" src="../images/tablet_v/1.png" alt="選択中の背景画像">
       <p id="selected-label">画像をクリックして背景を切り替えます</p>
     </div>
-
+    <body data-img-root="../images/dev">
     <div class="thumbs" id="thumbs"></div>
   </section>
+        <div class="preview-card">
+          <img id="selected-icon" src="../images/dev/portrait/IMG_9494.JPG" alt="選択中の背景画像">
 
   <script src="script.js"></script>
   <script>
-    (function(){
-      const backgrounds = ['images/dev/portrait/IMG_9494.JPG','images/dev/portrait/IMG_9495.JPG','images/dev/portrait/IMG_9496.JPG'];
-      const layerA = document.getElementById('bg1');
-      const layerB = document.getElementById('bg2');
-      let visibleA = true;
-      function setLayer(el, url){ el.style.backgroundImage = `url('${url}')`; }
-      function pickNext(current){ const others = backgrounds.filter(b=>b!==current); return others[Math.floor(Math.random()*others.length)]; }
-      const selectedIcon = document.getElementById('selected-icon');
-      let current = backgrounds[Math.floor(Math.random()*backgrounds.length)];
-      setLayer(layerA, current); layerA.classList.add('show'); if(selectedIcon) selectedIcon.src = current;
-      setInterval(()=>{
-        const next = pickNext(current);
-        const top = visibleA ? layerB : layerA;
-        const bot = visibleA ? layerA : layerB;
-        setLayer(top, next);
-        top.classList.add('show');
-        setTimeout(()=>{ bot.classList.remove('show'); }, 950);
-        visibleA = !visibleA;
-        current = next;
-        if(selectedIcon) selectedIcon.src = current;
-      }, 5000);
-    })();
-  </script>
+      <script src="../script.js"></script>
+        (function(){
+          const base = (document.body && document.body.dataset && document.body.dataset.imgRoot) ? document.body.dataset.imgRoot : '../images/dev';
+          const backgrounds = [`${base}/portrait/IMG_9494.JPG`, `${base}/portrait/IMG_9495.JPG`, `${base}/portrait/IMG_9496.JPG`];
+          const layerA = document.getElementById('bg1');
+          const layerB = document.getElementById('bg2');
+          let visibleA = true;
+          function setLayer(el, url){ el.style.backgroundImage = `url('${url}')`; }
+          function pickNext(current){ const others = backgrounds.filter(b=>b!==current); return others[Math.floor(Math.random()*others.length)]; }
+          const selectedIcon = document.getElementById('selected-icon');
+          let current = backgrounds[Math.floor(Math.random()*backgrounds.length)];
+          setLayer(layerA, current); layerA.classList.add('show'); if(selectedIcon) selectedIcon.src = current;
+          setInterval(()=>{
+            const next = pickNext(current);
+            const top = visibleA ? layerB : layerA;
+            const bot = visibleA ? layerA : layerB;
+            setLayer(top, next);
+            top.classList.add('show');
+            setTimeout(()=>{ bot.classList.remove('show'); }, 950);
+            visibleA = !visibleA;
+            current = next;
+            if(selectedIcon) selectedIcon.src = current;
+          }, 5000);
+        })();
 </body>
 </html>

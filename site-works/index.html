@@ -6,7 +6,7 @@
   <title>作品</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body data-img-root="../images/works">
   <div id="bg-wrap">
     <div class="bg-layer" id="bg1"></div>
     <div class="bg-layer" id="bg2"></div>
@@ -31,10 +31,11 @@
     <div class="thumbs" id="thumbs"></div>
   </section>
 
-  <script src="script.js"></script>
+  <script src="../script.js"></script>
   <script>
     (function(){
-      const backgrounds = ['images/dev/portrait/IMG_9494.JPG','images/dev/portrait/IMG_9495.JPG','images/dev/portrait/IMG_9496.JPG'];
+      const base = (document.body && document.body.dataset && document.body.dataset.imgRoot) ? document.body.dataset.imgRoot : '../images/works';
+      const backgrounds = [`${base}/portrait/IMG_9494.JPG`, `${base}/portrait/IMG_9495.JPG`, `${base}/portrait/IMG_9496.JPG`];
       const layerA = document.getElementById('bg1');
       const layerB = document.getElementById('bg2');
       let visibleA = true;

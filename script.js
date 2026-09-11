@@ -2,54 +2,16 @@ const thumbsContainer = document.getElementById("thumbs");
 const selectedIcon = document.getElementById("selected-icon");
 const selectedLabel = document.getElementById("selected-label");
 
+// base path is set per-page via <body data-img-root="...">. If not present, default to images/home
+const base = (document.body && document.body.dataset && document.body.dataset.imgRoot) ? document.body.dataset.imgRoot : 'images/home';
+
+const buildRange = (folder, count) => Array.from({length: count}, (_,i)=> `${base}/${folder}/${i+1}.png`);
+
 const categoryImages = {
-  pc: [
-    "images/pc/1.png",
-    "images/pc/2.png",
-    "images/pc/3.png",
-    "images/pc/4.png",
-    "images/pc/5.png",
-    "images/pc/6.png",
-    "images/pc/7.png",
-    "images/pc/8.png"
-  ],
-  tablet_h: [
-    "images/tablet_h/1.png",
-    "images/tablet_h/2.png",
-    "images/tablet_h/3.png",
-    "images/tablet_h/4.png",
-    "images/tablet_h/5.png",
-    "images/tablet_h/6.png",
-    "images/tablet_h/7.png",
-    "images/tablet_h/8.png",
-    "images/tablet_h/9.png",
-    "images/tablet_h/10.png"
-  ],
-  tablet_v: [
-    "images/tablet_v/1.png",
-    "images/tablet_v/2.png",
-    "images/tablet_v/3.png",
-    "images/tablet_v/4.png",
-    "images/tablet_v/5.png",
-    "images/tablet_v/6.png",
-    "images/tablet_v/7.png",
-    "images/tablet_v/8.png",
-    "images/tablet_v/9.png"
-  ],
-  phone: [
-    "images/phone/1.png",
-    "images/phone/2.png",
-    "images/phone/3.png",
-    "images/phone/4.png",
-    "images/phone/5.png",
-    "images/phone/6.png",
-    "images/phone/7.png",
-    "images/phone/8.png",
-    "images/phone/9.png",
-    "images/phone/10.png",
-    "images/phone/11.png",
-    "images/phone/12.png"
-  ]
+  pc: buildRange('pc', 8),
+  tablet_h: buildRange('tablet_h', 10),
+  tablet_v: buildRange('tablet_v', 9),
+  phone: buildRange('phone', 12)
 };
 
 const viewToCategory = () => {
@@ -117,7 +79,7 @@ function getAllImageList() {
 
 preloadImages(getAllImageList()).then(items => {
   const category = getCurrentCategory();
-  const candidates = categoryImages[category].length ? categoryImages[category] : getAllImageList();
+  const candidates = (categoryImages[category] && categoryImages[category].length) ? categoryImages[category] : getAllImageList();
   const pick = pickRandomImage(candidates);
   setBackgroundUrl(pick);
   createThumbs(getAllImageList());
