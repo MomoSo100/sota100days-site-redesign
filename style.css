@@ -58,6 +58,11 @@ body::before {
 
 .site-link:hover { transform: translateY(-2px); background: rgba(255,255,255,0.12); }
 
+/* Background fade layers */
+#bg-wrap { position: fixed; inset: 0; z-index: -2; overflow: hidden; }
+.bg-layer { position: absolute; inset: 0; background-size: cover; background-position: center; background-repeat: no-repeat; transition: opacity 900ms ease; opacity: 0; }
+.bg-layer.show { opacity: 1; }
+
 .sns-link {
   display: inline-flex;
   align-items: center;

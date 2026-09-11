@@ -7,6 +7,10 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div id="bg-wrap">
+    <div class="bg-layer" id="bg1"></div>
+    <div class="bg-layer" id="bg2"></div>
+  </div>
   <main class="hero">
     <h1>作品</h1>
     <p>作品ページ（派生サイト）</p>
@@ -30,24 +34,25 @@
   <script src="script.js"></script>
   <script>
     (function(){
-      const backgrounds = [
-        'images/dev/portrait/IMG_9494.JPG',
-        'images/dev/portrait/IMG_9495.JPG',
-        'images/dev/portrait/IMG_9496.JPG'
-      ];
-      function pickRandom(prev){
-        if (!prev) return backgrounds[Math.floor(Math.random()*backgrounds.length)];
-        const others = backgrounds.filter(b => b !== prev);
-        return others[Math.floor(Math.random()*others.length)];
-      }
-      let current = backgrounds[Math.floor(Math.random()*backgrounds.length)];
-      document.body.style.backgroundImage = `url('${current}')`;
+      const backgrounds = ['images/dev/portrait/IMG_9494.JPG','images/dev/portrait/IMG_9495.JPG','images/dev/portrait/IMG_9496.JPG'];
+      const layerA = document.getElementById('bg1');
+      const layerB = document.getElementById('bg2');
+      let visibleA = true;
+      function setLayer(el, url){ el.style.backgroundImage = `url('${url}')`; }
+      function pickNext(current){ const others = backgrounds.filter(b=>b!==current); return others[Math.floor(Math.random()*others.length)]; }
       const selectedIcon = document.getElementById('selected-icon');
-      if (selectedIcon) selectedIcon.src = current;
+      let current = backgrounds[Math.floor(Math.random()*backgrounds.length)];
+      setLayer(layerA, current); layerA.classList.add('show'); if(selectedIcon) selectedIcon.src = current;
       setInterval(()=>{
-        current = pickRandom(current);
-        document.body.style.backgroundImage = `url('${current}')`;
-        if (selectedIcon) selectedIcon.src = current;
+        const next = pickNext(current);
+        const top = visibleA ? layerB : layerA;
+        const bot = visibleA ? layerA : layerB;
+        setLayer(top, next);
+        top.classList.add('show');
+        setTimeout(()=>{ bot.classList.remove('show'); }, 950);
+        visibleA = !visibleA;
+        current = next;
+        if(selectedIcon) selectedIcon.src = current;
       }, 5000);
     })();
   </script>

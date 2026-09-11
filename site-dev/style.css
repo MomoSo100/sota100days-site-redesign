@@ -5,4 +5,10 @@ body::before { content:""; position:fixed; inset:0; background:rgba(0,0,0,0.18);
 .sns { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-top:24px; }
 .sns-link { display:inline-flex; align-items:center; gap:8px; padding:12px 18px; border-radius:999px; font-size:14px; font-weight:700; text-decoration:none; color:#fff; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.18); }
 
+
+/* background fade layers */
+#bg-wrap { position: fixed; inset: 0; z-index: -2; overflow: hidden; }
+.bg-layer { position: absolute; inset: 0; background-size: cover; background-position: center; background-repeat: no-repeat; transition: opacity 900ms ease; opacity: 0; }
+.bg-layer.show { opacity: 1; }
+
 /* minimal CSS for skeleton; full CSS is in root/style.css */
