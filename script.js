@@ -149,6 +149,31 @@ if (base && base.toLowerCase().includes('information')) {
   preloadImages(prioCandidates).then(items => {
     console.log('[prio] candidates:', prioCandidates);
     console.log('[prio] preload results:', items.map(i=>({src:i.src,width:i.width,ok:i.width>0})));
+    // mobile-friendly debug panel: create or update an on-page overlay to show results
+    try {
+      let panel = document.getElementById('prio-debug');
+      if (!panel) {
+        panel = document.createElement('div');
+        panel.id = 'prio-debug';
+        panel.style.position = 'fixed';
+        panel.style.right = '8px';
+        panel.style.bottom = '8px';
+        panel.style.zIndex = 9999;
+        panel.style.maxWidth = '48vw';
+        panel.style.maxHeight = '40vh';
+        panel.style.overflow = 'auto';
+        panel.style.background = 'rgba(0,0,0,0.7)';
+        panel.style.color = '#fff';
+        panel.style.fontSize = '12px';
+        panel.style.padding = '8px';
+        panel.style.borderRadius = '6px';
+        panel.style.backdropFilter = 'blur(4px)';
+        document.body.appendChild(panel);
+      }
+      panel.innerHTML = '<strong>prio candidates</strong><br/>' + prioCandidates.map(p=>p.replace(/^.*\//,'')).join(', ') + '<br/><br/>' +
+        '<strong>results</strong><br/>' + items.map(i=>`${i.src.replace(/^.*\//,'')} → ${i.width>0 ? 'OK' : 'ERR'}`).join('<br/>') +
+        '<br/><br/><small>Remove debug by deleting #prio-debug or reverting script.js</small>';
+    } catch(e) { console.warn('prio debug panel failed', e); }
     const good = items.filter(it => it.width > 0).map(it => it.src);
     if (good.length) {
       // weight priority images by duplicating entries so they appear more often
