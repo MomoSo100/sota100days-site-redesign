@@ -107,9 +107,13 @@ const runGeneralLogic = () => {
 };
 
 if (base && base.includes('HomePage')) {
+  // Duplicate entries to increase selection probability for preferred images
   const homeList = [
-    `${base}/IMG_9496.JPG`,
+    `${base}/9496.JPG`,
+    `${base}/9496.JPG`,
     `${base}/12.png`,
+    `${base}/12.png`,
+    `${base}/6.png`,
     `${base}/6.png`
   ];
   preloadImages(homeList).then(items => {
