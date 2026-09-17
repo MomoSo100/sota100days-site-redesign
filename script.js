@@ -147,6 +147,8 @@ if (base && base.toLowerCase().includes('information')) {
   }
 
   preloadImages(prioCandidates).then(items => {
+    console.log('[prio] candidates:', prioCandidates);
+    console.log('[prio] preload results:', items.map(i=>({src:i.src,width:i.width,ok:i.width>0})));
     const good = items.filter(it => it.width > 0).map(it => it.src);
     if (good.length) {
       // weight priority images by duplicating entries so they appear more often
@@ -156,7 +158,7 @@ if (base && base.toLowerCase().includes('information')) {
       if (thumbsContainer) createThumbs(weighted);
       return;
     }
-    // no marked images found — general logic will handle selection
+    console.log('[prio] no marked images found');
   }).catch(() => {});
 }
 
