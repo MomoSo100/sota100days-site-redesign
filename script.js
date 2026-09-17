@@ -65,12 +65,42 @@ function getAllImageList() {
   return [...categoryImages.pc, ...categoryImages.tablet_h, ...categoryImages.tablet_v, ...categoryImages.phone];
 }
 
+// Try preload of the structured category images first. If none load, try a simple
+// fallback list of images at the base folder (1.png..12.png).
 preloadImages(getAllImageList()).then(items => {
+  const loaded = items.filter(it => it.width > 0).map(it => it.src);
   const category = getCurrentCategory();
-  const candidates = (categoryImages[category] && categoryImages[category].length) ? categoryImages[category] : getAllImageList();
-  const pick = pickRandomImage(candidates);
-  setBackgroundUrl(pick);
-  if (thumbsContainer) createThumbs(getAllImageList());
+
+  const useFrom = (loaded.length > 0) ? loaded : null;
+
+  const pickAndSet = (list) => {
+    if (!list || !list.length) return;
+    const pick = pickRandomImage(list);
+    setBackgroundUrl(pick);
+    if (thumbsContainer) createThumbs(list);
+  };
+
+  if (useFrom) {
+    // Prefer images from the successful structured preload that match the current category.
+    const categoryCandidates = useFrom.filter(src => src.includes(`/${category}/`));
+    if (categoryCandidates.length) {
+      pickAndSet(categoryCandidates);
+      return;
+    }
+    pickAndSet(useFrom);
+    return;
+  }
+
+  // Fallback: try base/1.png .. base/12.png
+  const fallback = Array.from({length: 12}, (_,i) => `${base}/${i+1}.png`);
+  preloadImages(fallback).then(fitems => {
+    const good = fitems.filter(it => it.width > 0).map(it => it.src);
+    if (good.length) {
+      pickAndSet(good);
+      return;
+    }
+    // As a last resort, don't change the existing CSS background.
+  });
 });
 
 // Hide or remove the old random button behavior — the page now auto-randomizes on load.
