@@ -173,6 +173,40 @@ button:hover {
 }
 
 h1 {
+
+  /* Responsive layout for profile card: stack on small screens */
+  .profile-card .row {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+  @media (max-width: 767.98px) {
+    .profile-card .row {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .profile-card .col-4, .profile-card .col-8 {
+      width: 100% !important;
+    }
+    .profile-img {
+      height: auto;
+      border-radius: .25rem .25rem 0 0;
+    }
+    .profile-card .card-body { text-align: center; }
+  }
+
+  /* Navbar/button tweaks for consistent desktop/mobile appearance */
+  .navbar .btn {
+    border-radius: 999px;
+    padding: .5rem 1rem;
+  }
+  @media (max-width: 767.98px) {
+    .navbar .btn { width: 100%; text-align: center; }
+    .navbar-nav { gap: .5rem; }
+  }
+  @media (min-width: 768px) {
+    .navbar-nav .btn { display: inline-flex; }
+  }
   font-size: 40px;
   margin-bottom: 16px;
 }

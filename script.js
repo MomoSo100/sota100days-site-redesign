@@ -18,10 +18,11 @@ const viewToCategory = () => {
   const vw = window.innerWidth;
   const vh = window.innerHeight;
 
-  if (vw >= 1200) {
+  // Use Bootstrap-like breakpoints: >=992px -> pc, <=767px -> phone, else tablets
+  if (vw >= 992) {
     return 'pc';
   }
-  if (vw <= 640) {
+  if (vw <= 767) {
     return 'phone';
   }
   return vw >= vh ? 'tablet_h' : 'tablet_v';
