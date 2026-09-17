@@ -65,8 +65,29 @@ function getAllImageList() {
   return [...categoryImages.pc, ...categoryImages.tablet_h, ...categoryImages.tablet_v, ...categoryImages.phone];
 }
 
-// Try preload of the structured category images first. If none load, try a simple
-// fallback list of images at the base folder (1.png..12.png).
+// If we're on the homepage (base contains HomePage), prefer a short curated
+// list of three hero images (including the attached JPG). Rotate among them.
+if (base && base.includes('HomePage')) {
+  const homeList = [
+    `${base}/IMG_9496.JPG`,
+    `${base}/12.png`,
+    `${base}/6.png`
+  ];
+  preloadImages(homeList).then(items => {
+    const good = items.filter(it => it.width > 0).map(it => it.src);
+    if (good.length) {
+      // pick one immediately, then rotate every 6s
+      setBackgroundUrl(pickRandomImage(good));
+      setInterval(() => setBackgroundUrl(pickRandomImage(good)), 6000);
+      if (thumbsContainer) createThumbs(good);
+      return;
+    }
+    // fallback to the general logic below if none of the homeList exists
+    // (fall through)
+  }).catch(() => {});
+}
+
+// General logic for other pages or fallback when HomePage images are unavailable.
 preloadImages(getAllImageList()).then(items => {
   const loaded = items.filter(it => it.width > 0).map(it => it.src);
   const category = getCurrentCategory();
@@ -81,7 +102,6 @@ preloadImages(getAllImageList()).then(items => {
   };
 
   if (useFrom) {
-    // Prefer images from the successful structured preload that match the current category.
     const categoryCandidates = useFrom.filter(src => src.includes(`/${category}/`));
     if (categoryCandidates.length) {
       pickAndSet(categoryCandidates);
@@ -91,7 +111,6 @@ preloadImages(getAllImageList()).then(items => {
     return;
   }
 
-  // Fallback: try base/1.png .. base/12.png
   const fallback = Array.from({length: 12}, (_,i) => `${base}/${i+1}.png`);
   preloadImages(fallback).then(fitems => {
     const good = fitems.filter(it => it.width > 0).map(it => it.src);
