@@ -133,26 +133,30 @@ if (base && base.includes('HomePage')) {
 }
 
 // If this page points at the Information images folder, prefer any files
-// that have a `_prio` marker before their extension (e.g. `9495_prio.JPG` or `1_prio.png`).
-// This lets you mark preferred profile photos by renaming them with `_prio`.
+// that have a `_prio` or `_pro` marker before their extension (e.g.
+// `9495_prio.JPG`, `1_pro.png`). This lets you mark preferred profile
+// photos by renaming them with a marker.
 if (base && base.toLowerCase().includes('information')) {
+  const markers = ['_prio', '_pro'];
   const prioCandidates = [];
-  // common numbered fallbacks (1..12) with _prio
-  for (let i = 1; i <= 12; i++) prioCandidates.push(`${base}/${i}_prio.png`);
-  // include large-numbered JPGs that exist in repo
-  prioCandidates.push(`${base}/9495_prio.JPG`, `${base}/9497_prio.JPG`);
+  for (const marker of markers) {
+    // common numbered fallbacks (1..12)
+    for (let i = 1; i <= 12; i++) prioCandidates.push(`${base}/${i}${marker}.png`);
+    // include large-numbered JPGs that exist in repo
+    prioCandidates.push(`${base}/9495${marker}.JPG`, `${base}/9497${marker}.JPG`);
+  }
 
   preloadImages(prioCandidates).then(items => {
     const good = items.filter(it => it.width > 0).map(it => it.src);
     if (good.length) {
-      // weight prio images by duplicating entries so they appear more often
+      // weight priority images by duplicating entries so they appear more often
       const weighted = good.flatMap(src => [src, src, src]);
       setBackgroundUrl(pickRandomImage(weighted));
       setInterval(() => setBackgroundUrl(pickRandomImage(weighted)), 6000);
       if (thumbsContainer) createThumbs(weighted);
       return;
     }
-    // no prio images found — do nothing special (general logic already ran)
+    // no marked images found — general logic will handle selection
   }).catch(() => {});
 }
 
