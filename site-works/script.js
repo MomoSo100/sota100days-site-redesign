@@ -87,6 +87,7 @@ function setBackgroundUrl(url) {
   if (activeThumb && activeThumb.parentElement) activeThumb.parentElement.classList.add('active');
 }
 function createThumbs(list) {
+  if (!thumbsContainer) return;
   thumbsContainer.innerHTML = '';
   list.forEach((src, index) => {
     const thumb = document.createElement("button");
@@ -100,5 +101,5 @@ function createThumbs(list) {
   });
 }
 function getAllImageList() { return [...categoryImages.pc, ...categoryImages.tablet_h, ...categoryImages.tablet_v, ...categoryImages.phone]; }
-preloadImages(getAllImageList()).then(items => { const category = getCurrentCategory(); const candidates = categoryImages[category].length ? categoryImages[category] : getAllImageList(); const pick = pickRandomImage(candidates); setBackgroundUrl(pick); createThumbs(getAllImageList()); });
+preloadImages(getAllImageList()).then(items => { const category = getCurrentCategory(); const candidates = categoryImages[category].length ? categoryImages[category] : getAllImageList(); const pick = pickRandomImage(candidates); setBackgroundUrl(pick); if (thumbsContainer) createThumbs(getAllImageList()); });
 const randomBtn = document.getElementById("randomBtn"); if (randomBtn) randomBtn.style.display = 'none';

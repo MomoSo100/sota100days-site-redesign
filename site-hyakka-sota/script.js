@@ -96,6 +96,7 @@ function setBackgroundUrl(url) {
 }
 
 function createThumbs(list) {
+  if (!thumbsContainer) return;
   thumbsContainer.innerHTML = '';
   list.forEach((src, index) => {
     const thumb = document.createElement("button");
@@ -121,7 +122,7 @@ preloadImages(getAllImageList()).then(items => {
   const candidates = categoryImages[category].length ? categoryImages[category] : getAllImageList();
   const pick = pickRandomImage(candidates);
   setBackgroundUrl(pick);
-  createThumbs(getAllImageList());
+  if (thumbsContainer) createThumbs(getAllImageList());
 });
 
 // Hide or remove the old random button behavior — the page now auto-randomizes on load.
