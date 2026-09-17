@@ -14,9 +14,8 @@ body {
 
 /* rest of CSS identical to site-hyakka-sota/style.css */
 
-.controls { max-width: 1040px; margin: 40px auto; padding: 0 16px 40px; }
-.preview-card { display:flex; align-items:center; gap:16px; background: rgba(255,255,255,0.06); border-radius:16px; padding:16px; }
-.thumbs { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
+controls { max-width: 1040px; margin: 40px auto; padding: 0 16px 40px; }
+/* preview-card and thumbs styles removed */
 
 /* background fade layers */
 #bg-wrap { position: fixed; inset: 0; z-index: -2; overflow: hidden; }

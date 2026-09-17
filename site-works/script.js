@@ -87,18 +87,9 @@ function setBackgroundUrl(url) {
   if (activeThumb && activeThumb.parentElement) activeThumb.parentElement.classList.add('active');
 }
 function createThumbs(list) {
-  thumbsContainer.innerHTML = '';
-  list.forEach((src, index) => {
-    const thumb = document.createElement("button");
-    thumb.type = "button";
-    thumb.className = "thumb";
-    thumb.addEventListener("click", () => setBackgroundUrl(src));
-    const img = document.createElement("img");
-    img.src = src; img.alt = `背景候補 ${index + 1}`;
-    thumb.appendChild(img);
-    thumbsContainer.appendChild(thumb);
-  });
+  // thumbnails disabled — no-op
+  return;
 }
 function getAllImageList() { return [...categoryImages.pc, ...categoryImages.tablet_h, ...categoryImages.tablet_v, ...categoryImages.phone]; }
-preloadImages(getAllImageList()).then(items => { const category = getCurrentCategory(); const candidates = categoryImages[category].length ? categoryImages[category] : getAllImageList(); const pick = pickRandomImage(candidates); setBackgroundUrl(pick); createThumbs(getAllImageList()); });
+preloadImages(getAllImageList()).then(items => { const category = getCurrentCategory(); const candidates = categoryImages[category].length ? categoryImages[category] : getAllImageList(); const pick = pickRandomImage(candidates); setBackgroundUrl(pick); if (thumbsContainer) createThumbs(getAllImageList()); });
 const randomBtn = document.getElementById("randomBtn"); if (randomBtn) randomBtn.style.display = 'none';

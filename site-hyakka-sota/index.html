@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>百華爽太</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body data-img-root="../images/momoka">
@@ -11,26 +12,39 @@
     <div class="bg-layer" id="bg1"></div>
     <div class="bg-layer" id="bg2"></div>
   </div>
+    <nav class="navbar navbar-expand-md navbar-dark bg-transparent">
+      <div class="container">
+        <a class="navbar-brand" href="../index.html">自己紹介</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="btn btn-outline-light btn-lg ms-2" href="../index.html">Home</a></li>
+            <li class="nav-item"><a class="btn btn-outline-light btn-lg ms-2" href="../site-works/index.html">作品</a></li>
+            <li class="nav-item"><a class="btn btn-outline-light btn-lg ms-2" href="../site-dev/index.html">開発</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
   <main class="hero">
-    <h1>百華爽太</h1>
-    <p>サイト改装中です。</p>
+    <div class="container text-center py-5">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="display-4">百華爽太</h1>
+          <p class="lead">サイト改装中です。</p>
 
-    <div class="sns">
-      <a class="sns-link sns-tiktok" href="https://www.tiktok.com/@momoka_sota?_r=1&_t=ZS-97YVAzaqjYb" target="_blank">TikTok</a>
-      <a class="sns-link sns-x" href="https://x.com/momoka_sota100?s=11&t=aL7fCxnq-a7y3-TNYRUa5g" target="_blank">X</a>
-      <a class="sns-link sns-instagram" href="https://www.instagram.com/sota100days?igsh=eHYyNzhzOTU4NnV1&utm_source=qr" target="_blank">Instagram</a>
+          <div class="sns mt-3">
+            <a class="sns-link sns-tiktok" href="https://www.tiktok.com/@momoka_sota?_r=1&_t=ZS-97YVAzaqjYb" target="_blank">TikTok</a>
+            <a class="sns-link sns-x" href="https://x.com/momoka_sota100?s=11&t=aL7fCxnq-a7y3-TNYRUa5g" target="_blank">X</a>
+            <a class="sns-link sns-instagram" href="https://www.instagram.com/sota100days?igsh=eHYyNzhzOTU4NnV1&utm_source=qr" target="_blank">Instagram</a>
+          </div>
+        </div>
+      </div>
     </div>
   </main>
 
-  <section class="controls">
-    <div class="preview-card">
-      <img id="selected-icon" src="../images/momoka/tablet_v/1.png" alt="選択中の背景画像">
-      <p id="selected-label">画像をクリックして背景を切り替えます</p>
-    </div>
-
-    <div class="thumbs" id="thumbs"></div>
-  </section>
-
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../script.js"></script>
   <script>
     (function(){

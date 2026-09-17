@@ -96,20 +96,8 @@ function setBackgroundUrl(url) {
 }
 
 function createThumbs(list) {
-  thumbsContainer.innerHTML = '';
-  list.forEach((src, index) => {
-    const thumb = document.createElement("button");
-    thumb.type = "button";
-    thumb.className = "thumb";
-    thumb.addEventListener("click", () => setBackgroundUrl(src));
-
-    const img = document.createElement("img");
-    img.src = src;
-    img.alt = `背景候補 ${index + 1}`;
-
-    thumb.appendChild(img);
-    thumbsContainer.appendChild(thumb);
-  });
+  // thumbnails disabled — no-op
+  return;
 }
 
 function getAllImageList() {
@@ -121,7 +109,7 @@ preloadImages(getAllImageList()).then(items => {
   const candidates = categoryImages[category].length ? categoryImages[category] : getAllImageList();
   const pick = pickRandomImage(candidates);
   setBackgroundUrl(pick);
-  createThumbs(getAllImageList());
+  if (thumbsContainer) createThumbs(getAllImageList());
 });
 
 // Hide or remove the old random button behavior — the page now auto-randomizes on load.
