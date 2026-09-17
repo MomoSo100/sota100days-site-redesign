@@ -2,8 +2,8 @@ const thumbsContainer = document.getElementById("thumbs");
 const selectedIcon = document.getElementById("selected-icon");
 const selectedLabel = document.getElementById("selected-label");
 
-// base path is set per-page via <body data-img-root="...">. If not present, default to images/home
-const base = (document.body && document.body.dataset && document.body.dataset.imgRoot) ? document.body.dataset.imgRoot : 'images/home';
+// base path is set per-page via <body data-img-root="...">. If not present, default to images/HomePage
+const base = (document.body && document.body.dataset && document.body.dataset.imgRoot) ? document.body.dataset.imgRoot : 'images/HomePage';
 
 const buildRange = (folder, count) => Array.from({length: count}, (_,i)=> `${base}/${folder}/${i+1}.png`);
 
