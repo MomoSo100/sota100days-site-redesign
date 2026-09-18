@@ -4,7 +4,7 @@ const works = [
     title: '爆美女ちゃんとエンジニアくん',
     type: 'manga',
     year: '2026',
-    cover: '../images/Creat/manga/bakubijo-engineer.jpg',
+    cover: '../images/Creat/manga/0FF51AB6-77F6-436C-8F78-38AFD01A5DE2.PNG',
     fallback: 'linear-gradient(135deg, #f7b8d3, #8ec7ff 52%, #d9fbff)',
     pages: [
       '新しいプロジェクトが始まる日、爆美女ちゃんはいつものようにサングラスをかけて登場した。',

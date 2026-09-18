@@ -136,6 +136,9 @@ body {
 .cover-graphic {
   position: absolute;
   inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   background: var(--cover-gradient, linear-gradient(135deg, #f7b8d3, #8dd3ff));
   filter: saturate(1.1);
 }
