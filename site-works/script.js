@@ -15,33 +15,27 @@ const works = [
     title: 'Manga 02',
     type: 'manga',
     year: '2026',
-    cover: '../images/Creat/manga/0FF51AB6-77F6-436C-8F78-38AFD01A5DE2.PNG',
-    fallback: 'linear-gradient(135deg, #9ec5ff, #c7d9ff 45%, #dfe8ff)',
-    images: [
-      '../images/Creat/manga/0FF51AB6-77F6-436C-8F78-38AFD01A5DE2.PNG'
-    ]
+    cover: '',
+    fallback: 'linear-gradient(135deg, rgba(255,255,255,0.06), rgba(12,12,18,0.06))',
+    images: []
   },
   {
     id: 'manga-03',
     title: 'Manga 03',
     type: 'manga',
     year: '2026',
-    cover: '../images/Creat/manga/0FF51AB6-77F6-436C-8F78-38AFD01A5DE2.PNG',
-    fallback: 'linear-gradient(135deg, #8de4bd, #d2f6d1 45%, #f8f6cc)',
-    images: [
-      '../images/Creat/manga/0FF51AB6-77F6-436C-8F78-38AFD01A5DE2.PNG'
-    ]
+    cover: '',
+    fallback: 'linear-gradient(135deg, rgba(255,255,255,0.04), rgba(12,12,18,0.04))',
+    images: []
   },
   {
     id: 'manga-04',
     title: 'Manga 04',
     type: 'manga',
     year: '2026',
-    cover: '../images/Creat/manga/0FF51AB6-77F6-436C-8F78-38AFD01A5DE2.PNG',
-    fallback: 'linear-gradient(135deg, #ffcc99, #ffd9f2 45%, #f6f2ff)',
-    images: [
-      '../images/Creat/manga/0FF51AB6-77F6-436C-8F78-38AFD01A5DE2.PNG'
-    ]
+    cover: '',
+    fallback: 'linear-gradient(135deg, rgba(255,255,255,0.02), rgba(12,12,18,0.06))',
+    images: []
   }
 ];
 
@@ -58,9 +52,9 @@ function renderWorksGrid() {
     card.setAttribute('aria-label', `${work.title}を読む`);
 
     const isFirst = index === 0;
-    const imageStyle = isFirst
+    const imageStyle = work.cover
       ? `background-image: url('${work.cover}'), ${work.fallback};`
-      : `background-image: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)), ${work.fallback};`;
+      : `background-image: ${work.fallback};`;
 
     card.innerHTML = `
       <div class="card-frame">
@@ -80,6 +74,14 @@ function renderReader() {
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
   const work = works.find(item => item.id === id) || works[0];
+
+  if (!work.cover || !work.images || work.images.length === 0) {
+    const emptyState = document.createElement('div');
+    emptyState.className = 'reader-empty';
+    emptyState.innerHTML = '<div class="reader-empty-panel"></div>';
+    readerContent.appendChild(emptyState);
+    return;
+  }
 
   const hero = document.createElement('div');
   hero.className = 'reader-hero';
