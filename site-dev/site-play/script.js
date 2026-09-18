@@ -24,6 +24,9 @@ const colorBtn = document.getElementById('color-btn');
 const colorSwatch = document.getElementById('color-swatch');
 const messageBtn = document.getElementById('message-btn');
 const messageResult = document.getElementById('message-result');
+const bubbleField = document.getElementById('bubbleField');
+const ballField = document.getElementById('ballField');
+const soccerBall = document.getElementById('soccerBall');
 
 const bgAnimation = document.querySelector('.bg-animation');
 
@@ -46,6 +49,70 @@ if (bgAnimation) {
     orb.style.animationDuration = `${(14 + Math.random() * 12).toFixed(2)}s`;
     bgAnimation.appendChild(orb);
   }
+}
+
+if (bubbleField) {
+  for (let i = 0; i < 16; i++) {
+    const bubble = document.createElement('button');
+    bubble.type = 'button';
+    bubble.className = 'bubble';
+    const size = 20 + Math.random() * 46;
+    const left = Math.random() * 96;
+    const top = Math.random() * 80;
+    bubble.style.width = `${size}px`;
+    bubble.style.height = `${size}px`;
+    bubble.style.left = `${left}%`;
+    bubble.style.top = `${top}%`;
+    bubble.style.animationDelay = `${(i * 0.7).toFixed(2)}s`;
+    bubble.style.animationDuration = `${(5 + Math.random() * 6).toFixed(2)}s`;
+    bubble.setAttribute('aria-label', '泡');
+    bubble.addEventListener('click', () => {
+      bubble.classList.add('popped');
+      setTimeout(() => bubble.remove(), 350);
+    });
+    bubbleField.appendChild(bubble);
+  }
+}
+
+if (soccerBall && ballField) {
+  let isDragging = false;
+  let offsetX = 0;
+  let offsetY = 0;
+
+  const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+  const moveBall = (clientX, clientY) => {
+    const rect = ballField.getBoundingClientRect();
+    const x = clamp(clientX - rect.left - offsetX, 0, rect.width - soccerBall.offsetWidth);
+    const y = clamp(clientY - rect.top - offsetY, 0, rect.height - soccerBall.offsetHeight);
+    soccerBall.style.left = `${x}px`;
+    soccerBall.style.top = `${y}px`;
+  };
+
+  soccerBall.addEventListener('pointerdown', (event) => {
+    isDragging = true;
+    const rect = soccerBall.getBoundingClientRect();
+    offsetX = event.clientX - rect.left;
+    offsetY = event.clientY - rect.top;
+    soccerBall.setPointerCapture(event.pointerId);
+    soccerBall.classList.add('dragging');
+  });
+
+  soccerBall.addEventListener('pointermove', (event) => {
+    if (!isDragging) return;
+    moveBall(event.clientX, event.clientY);
+  });
+
+  soccerBall.addEventListener('pointerup', () => {
+    isDragging = false;
+    soccerBall.classList.remove('dragging');
+  });
+
+  soccerBall.addEventListener('pointerleave', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    soccerBall.classList.remove('dragging');
+  });
 }
 
 fortuneBtn.addEventListener('click', () => {

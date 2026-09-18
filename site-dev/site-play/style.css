@@ -138,8 +138,129 @@ body {
   box-shadow: 0 14px 28px rgba(255, 140, 216, 0.42);
 }
 
+.interactive-lab {
+  margin-top: 30px;
+  background: rgba(17, 17, 25, 0.4);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 28px;
+  padding: 20px 18px 18px;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.18);
+}
+
+.lab-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.lab-header h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.lab-header span {
+  color: rgba(255,255,255,0.72);
+  font-size: 0.8rem;
+}
+
+.bubble-field,
+.ball-field {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.03);
+}
+
+.bubble-field {
+  height: 220px;
+  margin-bottom: 20px;
+}
+
+.ball-field {
+  height: 240px;
+  background: linear-gradient(180deg, rgba(65, 114, 255, 0.24), rgba(8, 24, 55, 0.3));
+}
+
+.bubble {
+  position: absolute;
+  border: none;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.95), rgba(151, 225, 255, 0.4) 28%, rgba(163, 196, 255, 0.18) 60%, transparent 68%);
+  box-shadow: inset -8px -10px 18px rgba(74, 128, 255, 0.16), 0 10px 24px rgba(94, 134, 255, 0.14);
+  cursor: pointer;
+  animation: floatBubble 7s ease-in-out infinite;
+  transition: transform 0.18s ease, opacity 0.18s ease;
+}
+
+.bubble:hover {
+  transform: scale(1.05);
+}
+
+.bubble.popped {
+  animation: bubblePop 0.35s ease forwards;
+}
+
+@keyframes bubblePop {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+@keyframes floatBubble {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-10px) scale(1.04); }
+}
+
+.soccer-ball {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 90px;
+  height: 90px;
+  margin-left: -45px;
+  margin-top: -45px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff 0 18%, #f3f4f6 18% 32%, #dfe7f6 32% 40%, #eef2ff 41% 100%);
+  border: 6px solid rgba(255,255,255,0.7);
+  box-shadow: inset -10px -10px 20px rgba(74, 84, 104, 0.2), 0 18px 26px rgba(10, 16, 35, 0.26);
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+
+.soccer-ball::before,
+.soccer-ball::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+}
+
+.soccer-ball::before {
+  background: linear-gradient(90deg, transparent 0 46%, rgba(24, 41, 83, 0.18) 46% 54%, transparent 54% 100%);
+}
+
+.soccer-ball::after {
+  background: linear-gradient(180deg, transparent 0 46%, rgba(24, 41, 83, 0.18) 46% 54%, transparent 54% 100%);
+  transform: rotate(30deg);
+}
+
+.soccer-ball.dragging {
+  cursor: grabbing;
+  box-shadow: inset -10px -10px 20px rgba(74, 84, 104, 0.2), 0 20px 35px rgba(10, 16, 35, 0.32);
+}
+
 @media (max-width: 767px) {
   .toy-grid {
     grid-template-columns: 1fr;
+  }
+
+  .lab-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
