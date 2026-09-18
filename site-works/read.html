@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>作品一覧</title>
+  <title>作品を読む</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-<body data-page="works-index">
-  <div class="page-glow" aria-hidden="true"></div>
+<body data-page="work-reader">
+  <div class="reader-bg" aria-hidden="true"></div>
 
   <nav class="navbar navbar-expand-md navbar-dark bg-transparent">
     <div class="container">
@@ -20,21 +20,19 @@
         <ul class="navbar-nav ms-auto">
           <li class="nav-item"><a class="btn btn-outline-light btn-lg ms-2" href="../index.html">Home</a></li>
           <li class="nav-item"><a class="btn btn-outline-light btn-lg ms-2" href="../site-hyakka-sota/index.html">自己紹介</a></li>
+          <li class="nav-item"><a class="btn btn-outline-light btn-lg ms-2" href="index.html">作品一覧</a></li>
           <li class="nav-item"><a class="btn btn-outline-light btn-lg ms-2" href="../site-dev/index.html">開発</a></li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <main class="works-shell">
+  <main class="reader-shell">
     <div class="container py-5">
-      <header class="works-header text-center">
-        <p class="eyebrow">作品集</p>
-        <h1>作品一覧</h1>
-        <p class="subtitle">いくつかの作品を、漫画のような並びで並べてみました。</p>
-      </header>
-
-      <section id="worksGrid" class="works-grid" aria-live="polite"></section>
+      <div class="reader-nav">
+        <a href="index.html" class="back-link">← 作品一覧へ戻る</a>
+      </div>
+      <article id="readerContent" class="reader-page"></article>
     </div>
   </main>
 
