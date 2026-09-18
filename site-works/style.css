@@ -79,7 +79,7 @@ body {
 .work-card {
   position: relative;
   display: block;
-  padding: 14px 14px 16px;
+  padding: 12px 12px 10px;
   border: 1px solid var(--line);
   border-radius: 22px;
   background: rgba(14, 12, 19, 0.72);
@@ -89,6 +89,7 @@ body {
   cursor: pointer;
   text-decoration: none;
   color: inherit;
+  min-height: 480px;
 }
 
 .work-card:hover {
@@ -111,7 +112,7 @@ body {
 .work-cover {
   position: relative;
   display: block;
-  height: 250px;
+  height: 430px;
   overflow: hidden;
   border-radius: 14px;
   border: 1px solid rgba(255,255,255,0.08);
@@ -215,20 +216,20 @@ body {
 }
 
 .reader-hero {
-  display: grid;
-  grid-template-columns: minmax(220px, 320px) 1fr;
-  gap: 24px;
+  display: block;
   padding: 26px;
   border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
 .reader-cover {
-  min-height: 260px;
+  min-height: 360px;
   border-radius: 18px;
   border: 1px solid rgba(255,255,255,0.1);
   background: var(--cover-gradient, linear-gradient(135deg, #f4d5ff, #92d3ff));
   position: relative;
   overflow: hidden;
+  background-size: cover;
+  background-position: center;
 }
 
 .reader-cover::before {
@@ -270,34 +271,21 @@ body {
 
 .reader-panel {
   position: relative;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 18px;
-  align-items: center;
-  padding: 20px 0;
+  display: block;
+  padding: 16px 0;
   border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
 .reader-panel:last-child { border-bottom: none; }
 
-.reader-panel .panel-label {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 72px;
-  height: 40px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.07);
-  color: var(--text);
-  font-weight: 700;
-  font-size: 0.78rem;
-}
-
-.reader-panel p {
-  margin: 0;
-  line-height: 1.9;
-  color: rgba(255,255,255,0.8);
-  font-size: 1rem;
+.reader-image {
+  display: block;
+  width: 100%;
+  max-height: 82vh;
+  object-fit: contain;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.02);
 }
 
 @media (max-width: 900px) {
