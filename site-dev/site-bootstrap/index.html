@@ -115,7 +115,8 @@
             <button type="button" class="btn btn-primary demo-action">Center</button>
             <button type="button" class="btn btn-primary demo-action">Right</button>
           </div>
-          <div class="mt-3">
+          <div class="mt-3 reaction-panel">
+            <div class="reaction-bar" id="reactionBar" aria-hidden="true"></div>
             <button type="button" class="btn btn-danger demo-action">Danger</button>
             <button type="button" class="btn btn-info text-white demo-action">Info</button>
             <button type="button" class="btn btn-warning demo-action">Warning</button>
@@ -129,12 +130,13 @@
         <h3 class="mb-0">クリックで変わるリスト</h3>
         <button class="btn btn-success btn-sm" id="listToggleBtn">状態を切り替え</button>
       </div>
-      <div class="list-group" id="demoListGroup">
+      <div class="list-group list-demo-wrap" id="demoListGroup">
         <a href="#" class="list-group-item list-group-item-action active" aria-current="true">アクティブ項目</a>
         <a href="#" class="list-group-item list-group-item-action">二番目</a>
         <a href="#" class="list-group-item list-group-item-action">三番目</a>
         <a href="#" class="list-group-item list-group-item-action">四番目</a>
       </div>
+      <div class="list-announcement" id="listAnnouncement" aria-live="polite"></div>
     </section>
 
     <section>
