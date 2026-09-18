@@ -71,17 +71,18 @@ body {
 
 .works-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(240px, 1fr));
-  gap: 26px 20px;
+  grid-template-columns: repeat(4, minmax(180px, 1fr));
+  gap: 22px 18px;
   padding: 10px 0 40px;
+  align-items: stretch;
 }
 
 .work-card {
   position: relative;
   display: block;
-  padding: 12px 12px 10px;
+  padding: 10px;
   border: 1px solid var(--line);
-  border-radius: 22px;
+  border-radius: 18px;
   background: rgba(14, 12, 19, 0.72);
   box-shadow: 0 18px 35px var(--shadow);
   transform: rotate(var(--tilt, 0deg)) translateY(0);
@@ -89,7 +90,7 @@ body {
   cursor: pointer;
   text-decoration: none;
   color: inherit;
-  min-height: 480px;
+  min-height: 360px;
 }
 
 .work-card:hover {
@@ -97,9 +98,10 @@ body {
   box-shadow: 0 24px 46px rgba(0,0,0,0.32);
 }
 
-.work-card:nth-child(3n + 1) { --tilt: -1.2deg; }
-.work-card:nth-child(3n + 2) { --tilt: 1.4deg; }
-.work-card:nth-child(3n + 3) { --tilt: -0.8deg; }
+.work-card:nth-child(4n + 1) { --tilt: -1.4deg; }
+.work-card:nth-child(4n + 2) { --tilt: 1.1deg; }
+.work-card:nth-child(4n + 3) { --tilt: -0.8deg; }
+.work-card:nth-child(4n + 4) { --tilt: 1.4deg; }
 
 .work-card .card-frame {
   position: relative;
@@ -112,11 +114,12 @@ body {
 .work-cover {
   position: relative;
   display: block;
-  height: 430px;
+  height: 100%;
+  min-height: 330px;
   overflow: hidden;
   border-radius: 14px;
   border: 1px solid rgba(255,255,255,0.08);
-  background: linear-gradient(135deg, #ffb3d9, #7ec8ff 50%, #d2f0ff 100%);
+  background: linear-gradient(135deg, #2b1d30, #1a1d2f 60%, #111827);
 }
 
 .work-cover::before {
@@ -140,7 +143,7 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background: var(--cover-gradient, linear-gradient(135deg, #f7b8d3, #8dd3ff));
+  background-color: rgba(255,255,255,0.04);
   filter: saturate(1.1);
 }
 

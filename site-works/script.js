@@ -51,13 +51,17 @@ function renderWorksGrid() {
   const grid = document.getElementById('worksGrid');
   if (!grid) return;
 
-  works.forEach((work) => {
+  works.forEach((work, index) => {
     const card = document.createElement('a');
     card.href = `read.html?id=${work.id}`;
     card.className = 'work-card';
     card.setAttribute('aria-label', `${work.title}を読む`);
 
-    const imageStyle = `background-image: url('${work.cover}'), ${work.fallback};`;
+    const isFirst = index === 0;
+    const imageStyle = isFirst
+      ? `background-image: url('${work.cover}'), ${work.fallback};`
+      : `background-image: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)), ${work.fallback};`;
+
     card.innerHTML = `
       <div class="card-frame">
         <div class="work-cover">
