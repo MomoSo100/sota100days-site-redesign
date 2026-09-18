@@ -133,19 +133,32 @@ if (base && base.includes('HomePage')) {
 }
 
 // If this page points at the Information images folder, prefer any files
-// that have a `_prio` or `_pro` marker before their extension (e.g.
-// `9495_prio.JPG`, `1_pro.png`). This lets you mark preferred profile
-// photos by renaming them with a marker.
+// that have `_pro` or `_prio` markers (e.g. `9495_pro.JPG`, `1_prio.png`),
+// and use the same candidate list regardless of viewport (mobile/PC).
 if (base && base.toLowerCase().includes('information')) {
-  const markers = ['_prio', '_pro'];
+  const markers = ['_pro', '_prio'];
   const prioCandidates = [];
+  // try multiple extensions for numbered files and large JPGs
   for (const marker of markers) {
-    // common numbered fallbacks (1..12)
-    for (let i = 1; i <= 12; i++) prioCandidates.push(`${base}/${i}${marker}.png`);
-    // include large-numbered JPGs that exist in repo
-    prioCandidates.push(`${base}/9495${marker}.JPG`, `${base}/9497${marker}.JPG`);
+    for (let i = 1; i <= 12; i++) {
+      prioCandidates.push(`${base}/${i}${marker}.png`);
+      prioCandidates.push(`${base}/${i}${marker}.jpg`);
+      prioCandidates.push(`${base}/${i}${marker}.JPG`);
+    }
+    prioCandidates.push(`${base}/9495${marker}.JPG`, `${base}/9495${marker}.jpg`);
+    prioCandidates.push(`${base}/9497${marker}.JPG`, `${base}/9497${marker}.jpg`);
   }
 
+  // prepare lower-priority fallbacks without markers
+  const fallback = [];
+  for (let i = 1; i <= 12; i++) {
+    fallback.push(`${base}/${i}.png`);
+    fallback.push(`${base}/${i}.jpg`);
+    fallback.push(`${base}/${i}.JPG`);
+  }
+  fallback.push(`${base}/9495.JPG`, `${base}/9495.jpg`, `${base}/9497.JPG`, `${base}/9497.jpg`);
+
+  // Try marked candidates first
   preloadImages(prioCandidates).then(items => {
     console.log('[prio] candidates:', prioCandidates);
     console.log('[prio] preload results:', items.map(i=>({src:i.src,width:i.width,ok:i.width>0})));
@@ -174,16 +187,30 @@ if (base && base.toLowerCase().includes('information')) {
         '<strong>results</strong><br/>' + items.map(i=>`${i.src.replace(/^.*\//,'')} → ${i.width>0 ? 'OK' : 'ERR'}`).join('<br/>') +
         '<br/><br/><small>Remove debug by deleting #prio-debug or reverting script.js</small>';
     } catch(e) { console.warn('prio debug panel failed', e); }
+
     const good = items.filter(it => it.width > 0).map(it => it.src);
     if (good.length) {
-      // weight priority images by duplicating entries so they appear more often
-      const weighted = good.flatMap(src => [src, src, src]);
+      // weight priority images heavily so they show up on both mobile and desktop
+      const weighted = good.flatMap(src => [src, src, src, src]);
       setBackgroundUrl(pickRandomImage(weighted));
       setInterval(() => setBackgroundUrl(pickRandomImage(weighted)), 6000);
       if (thumbsContainer) createThumbs(weighted);
       return;
     }
-    console.log('[prio] no marked images found');
+
+    // no marked images found — try fallback unmarked files
+    preloadImages(fallback).then(fitems => {
+      console.log('[prio] fallback results:', fitems.map(i=>({src:i.src,width:i.width,ok:i.width>0})));
+      const good2 = fitems.filter(it => it.width > 0).map(it => it.src);
+      if (good2.length) {
+        const weighted2 = good2.flatMap(src => [src, src]);
+        setBackgroundUrl(pickRandomImage(weighted2));
+        setInterval(() => setBackgroundUrl(pickRandomImage(weighted2)), 6000);
+        if (thumbsContainer) createThumbs(weighted2);
+        return;
+      }
+      // nothing available — leave to general logic or CSS
+    }).catch(()=>{});
   }).catch(() => {});
 }
 
