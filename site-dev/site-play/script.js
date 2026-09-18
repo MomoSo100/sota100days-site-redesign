@@ -27,6 +27,8 @@ const messageResult = document.getElementById('message-result');
 const bubbleField = document.getElementById('bubbleField');
 const ballField = document.getElementById('ballField');
 const soccerBall = document.getElementById('soccerBall');
+const starField = document.getElementById('starField');
+const resetStarsBtn = document.getElementById('resetStarsBtn');
 
 const bgAnimation = document.querySelector('.bg-animation');
 
@@ -113,6 +115,38 @@ if (soccerBall && ballField) {
     isDragging = false;
     soccerBall.classList.remove('dragging');
   });
+}
+
+if (starField) {
+  const createStar = (index) => {
+    const star = document.createElement('button');
+    star.type = 'button';
+    star.className = 'star';
+    const size = 18 + Math.random() * 18;
+    const x = 10 + Math.random() * 80;
+    const y = 10 + Math.random() * 70;
+    star.style.left = `${x}%`;
+    star.style.top = `${y}%`;
+    star.style.width = `${size}px`;
+    star.style.height = `${size}px`;
+    star.style.animationDelay = `${(index * 0.3).toFixed(2)}s`;
+    star.setAttribute('aria-label', '星');
+    star.addEventListener('click', () => {
+      star.classList.add('burst');
+      setTimeout(() => star.classList.remove('burst'), 500);
+    });
+    return star;
+  };
+
+  const seedStars = () => {
+    starField.innerHTML = '';
+    for (let i = 0; i < 14; i++) {
+      starField.appendChild(createStar(i));
+    }
+  };
+
+  seedStars();
+  resetStarsBtn?.addEventListener('click', seedStars);
 }
 
 fortuneBtn.addEventListener('click', () => {

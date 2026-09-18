@@ -138,6 +138,13 @@ body {
   box-shadow: 0 14px 28px rgba(255, 140, 216, 0.42);
 }
 
+.toy-button.small {
+  width: auto;
+  margin-top: 0;
+  padding: 10px 16px;
+  font-size: 0.82rem;
+}
+
 .interactive-lab {
   margin-top: 30px;
   background: rgba(17, 17, 25, 0.4);
@@ -252,6 +259,50 @@ body {
 .soccer-ball.dragging {
   cursor: grabbing;
   box-shadow: inset -10px -10px 20px rgba(74, 84, 104, 0.2), 0 20px 35px rgba(10, 16, 35, 0.32);
+}
+
+.star-field {
+  position: relative;
+  height: 200px;
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(125, 105, 255, 0.08));
+  overflow: hidden;
+}
+
+.star {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transform: rotate(0deg);
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.star::before,
+.star::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #fff7a8, #ffd166, #ff9dcf);
+  clip-path: polygon(50% 0%, 61% 35%, 100% 35%, 68% 57%, 80% 100%, 50% 73%, 20% 100%, 32% 57%, 0% 35%, 39% 35%);
+  box-shadow: 0 0 18px rgba(255, 214, 102, 0.7);
+}
+
+.star:hover {
+  transform: scale(1.08) rotate(8deg);
+}
+
+.star.burst {
+  animation: starBurst 0.55s ease forwards;
+}
+
+@keyframes starBurst {
+  0% { transform: scale(1); opacity: 1; }
+  35% { transform: scale(1.7); opacity: 1; }
+  100% { transform: scale(2.8); opacity: 0; }
 }
 
 @media (max-width: 767px) {
