@@ -1,55 +1,23 @@
-// copied from root script.js with image paths adjusted
 const thumbsContainer = document.getElementById("thumbs");
 const selectedIcon = document.getElementById("selected-icon");
 const selectedLabel = document.getElementById("selected-label");
 
+const base = (document.body && document.body.dataset && document.body.dataset.imgRoot)
+  ? document.body.dataset.imgRoot
+  : '../images/Information';
+
 const categoryImages = {
   pc: [
-    "../images/hyakka/pc/1.png",
-    "../images/hyakka/pc/2.png",
-    "../images/hyakka/pc/3.png",
-    "../images/hyakka/pc/4.png",
-    "../images/hyakka/pc/5.png",
-    "../images/hyakka/pc/6.png",
-    "../images/hyakka/pc/7.png",
-    "../images/hyakka/pc/8.png"
+    `${base}/1.png`, `${base}/2.png`, `${base}/4.png`, `${base}/5_pro.png`, `${base}/8.png`, `${base}/9.png`, `${base}/9495_pro.JPG`, `${base}/9497_pro.JPG`
   ],
   tablet_h: [
-    "../images/hyakka/tablet_h/1.png",
-    "../images/hyakka/tablet_h/2.png",
-    "../images/hyakka/tablet_h/3.png",
-    "../images/hyakka/tablet_h/4.png",
-    "../images/hyakka/tablet_h/5.png",
-    "../images/hyakka/tablet_h/6.png",
-    "../images/hyakka/tablet_h/7.png",
-    "../images/hyakka/tablet_h/8.png",
-    "../images/hyakka/tablet_h/9.png",
-    "../images/hyakka/tablet_h/10.png"
+    `${base}/1.png`, `${base}/2.png`, `${base}/4.png`, `${base}/5_pro.png`, `${base}/8.png`, `${base}/9.png`, `${base}/9495_pro.JPG`, `${base}/9497_pro.JPG`
   ],
   tablet_v: [
-    "../images/hyakka/tablet_v/1.png",
-    "../images/hyakka/tablet_v/2.png",
-    "../images/hyakka/tablet_v/3.png",
-    "../images/hyakka/tablet_v/4.png",
-    "../images/hyakka/tablet_v/5.png",
-    "../images/hyakka/tablet_v/6.png",
-    "../images/hyakka/tablet_v/7.png",
-    "../images/hyakka/tablet_v/8.png",
-    "../images/hyakka/tablet_v/9.png"
+    `${base}/1.png`, `${base}/2.png`, `${base}/4.png`, `${base}/5_pro.png`, `${base}/8.png`, `${base}/9.png`, `${base}/9495_pro.JPG`, `${base}/9497_pro.JPG`
   ],
   phone: [
-    "../images/hyakka/phone/1.png",
-    "../images/hyakka/phone/2.png",
-    "../images/hyakka/phone/3.png",
-    "../images/hyakka/phone/4.png",
-    "../images/hyakka/phone/5.png",
-    "../images/hyakka/phone/6.png",
-    "../images/hyakka/phone/7.png",
-    "../images/hyakka/phone/8.png",
-    "../images/hyakka/phone/9.png",
-    "../images/hyakka/phone/10.png",
-    "../images/hyakka/phone/11.png",
-    "../images/hyakka/phone/12.png"
+    `${base}/1.png`, `${base}/2.png`, `${base}/4.png`, `${base}/5_pro.png`, `${base}/8.png`, `${base}/9.png`, `${base}/9495_pro.JPG`, `${base}/9497_pro.JPG`
   ]
 };
 
@@ -57,24 +25,18 @@ const viewToCategory = () => {
   const vw = window.innerWidth;
   const vh = window.innerHeight;
 
-  if (vw >= 1200) {
-    return 'pc';
-  }
-  if (vw <= 640) {
-    return 'phone';
-  }
+  if (vw >= 1200) return 'pc';
+  if (vw <= 640) return 'phone';
   return vw >= vh ? 'tablet_h' : 'tablet_v';
 };
 
-// Preload images and read their natural sizes to determine aspect ratios.
 function preloadImages(list) {
-  const promises = list.map(src => new Promise(resolve => {
+  return Promise.all(list.map(src => new Promise(resolve => {
     const img = new Image();
     img.src = src;
     img.onload = () => resolve({ src, width: img.naturalWidth, height: img.naturalHeight, ratio: img.naturalWidth / img.naturalHeight });
     img.onerror = () => resolve({ src, width: 0, height: 0, ratio: 1 });
-  }));
-  return Promise.all(promises);
+  })));
 }
 
 function getCurrentCategory() {
@@ -88,15 +50,14 @@ function pickRandomImage(list) {
 function setBackgroundUrl(url) {
   document.body.style.backgroundImage = `url('${url}')`;
   if (selectedIcon) selectedIcon.src = url;
-  if (selectedLabel) selectedLabel.textContent = url.replace(/^\.\.\/images\//, "");
-  // update active thumb
-  document.querySelectorAll(".thumb").forEach(thumb => thumb.classList.remove('active'));
+  if (selectedLabel) selectedLabel.textContent = url.replace(/^\.\.\/images\//, '');
+
+  document.querySelectorAll('.thumb').forEach(thumb => thumb.classList.remove('active'));
   const activeThumb = Array.from(document.querySelectorAll('.thumb img')).find(img => img.src && img.src.includes(url));
   if (activeThumb && activeThumb.parentElement) activeThumb.parentElement.classList.add('active');
 }
 
 function createThumbs(list) {
-  // thumbnails disabled — no-op
   return;
 }
 
@@ -104,16 +65,82 @@ function getAllImageList() {
   return [...categoryImages.pc, ...categoryImages.tablet_h, ...categoryImages.tablet_v, ...categoryImages.phone];
 }
 
-preloadImages(getAllImageList()).then(items => {
-  const category = getCurrentCategory();
-  const candidates = categoryImages[category].length ? categoryImages[category] : getAllImageList();
-  const pick = pickRandomImage(candidates);
-  setBackgroundUrl(pick);
-  if (thumbsContainer) createThumbs(getAllImageList());
-});
+const runGeneralLogic = () => {
+  preloadImages(getAllImageList()).then(items => {
+    const loaded = items.filter(it => it.width > 0).map(it => it.src);
+    const category = getCurrentCategory();
+    const pickAndSet = (list) => {
+      if (!list || !list.length) return;
+      const pick = pickRandomImage(list);
+      setBackgroundUrl(pick);
+      if (thumbsContainer) createThumbs(list);
+    };
 
-// Hide or remove the old random button behavior — the page now auto-randomizes on load.
-const randomBtn = document.getElementById("randomBtn");
-if (randomBtn) {
-  randomBtn.style.display = 'none';
+    if (loaded.length) {
+      const categoryCandidates = loaded.filter(src => src.includes(`/${category}/`));
+      if (categoryCandidates.length) {
+        pickAndSet(categoryCandidates);
+        return;
+      }
+      pickAndSet(loaded);
+      return;
+    }
+
+    const fallback = [
+      `${base}/1.png`, `${base}/2.png`, `${base}/4.png`, `${base}/5_pro.png`, `${base}/8.png`, `${base}/9.png`,
+      `${base}/9495_pro.JPG`, `${base}/9497_pro.JPG`
+    ];
+    preloadImages(fallback).then(fitems => {
+      const good = fitems.filter(it => it.width > 0).map(it => it.src);
+      if (good.length) pickAndSet(good);
+    });
+  });
+};
+
+if (base && base.toLowerCase().includes('information')) {
+  const markers = ['_pro', '_prio'];
+  const prioCandidates = [];
+
+  for (const marker of markers) {
+    for (let i = 1; i <= 12; i++) {
+      prioCandidates.push(`${base}/${i}${marker}.png`);
+      prioCandidates.push(`${base}/${i}${marker}.jpg`);
+      prioCandidates.push(`${base}/${i}${marker}.JPG`);
+    }
+    prioCandidates.push(`${base}/9495${marker}.JPG`, `${base}/9495${marker}.jpg`);
+    prioCandidates.push(`${base}/9497${marker}.JPG`, `${base}/9497${marker}.jpg`);
+  }
+
+  const fallback = [
+    `${base}/1.png`, `${base}/2.png`, `${base}/4.png`, `${base}/5_pro.png`, `${base}/8.png`, `${base}/9.png`,
+    `${base}/9495_pro.JPG`, `${base}/9497_pro.JPG`, `${base}/1.jpg`, `${base}/2.jpg`, `${base}/4.jpg`, `${base}/8.jpg`, `${base}/9.jpg`
+  ];
+
+  preloadImages(prioCandidates).then(items => {
+    const good = items.filter(it => it.width > 0).map(it => it.src);
+    if (good.length) {
+      const weighted = good.flatMap(src => [src, src, src]);
+      setBackgroundUrl(pickRandomImage(weighted));
+      setInterval(() => setBackgroundUrl(pickRandomImage(weighted)), 6000);
+      if (thumbsContainer) createThumbs(weighted);
+      return;
+    }
+
+    preloadImages(fallback).then(fitems => {
+      const good2 = fitems.filter(it => it.width > 0).map(it => it.src);
+      if (good2.length) {
+        const weighted2 = good2.flatMap(src => [src, src]);
+        setBackgroundUrl(pickRandomImage(weighted2));
+        setInterval(() => setBackgroundUrl(pickRandomImage(weighted2)), 6000);
+        if (thumbsContainer) createThumbs(weighted2);
+        return;
+      }
+      runGeneralLogic();
+    });
+  }).catch(() => runGeneralLogic());
+} else {
+  runGeneralLogic();
 }
+
+const randomBtn = document.getElementById('randomBtn');
+if (randomBtn) randomBtn.style.display = 'none';
