@@ -1,0 +1,57 @@
+body {
+  background: linear-gradient(135deg, #eef2ff, #f8fafc 35%, #ecfeff);
+  min-height: 100vh;
+}
+
+.card {
+  border-radius: 18px;
+}
+
+.btn {
+  border-radius: 999px;
+  transition: transform 0.14s ease, box-shadow 0.14s ease, filter 0.14s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px) scale(1.01);
+  filter: brightness(1.03);
+}
+
+.demo-btn.is-fired {
+  background: linear-gradient(135deg, #10b981, #3b82f6);
+  color: white;
+  border-color: transparent;
+  transform: scale(1.06);
+  box-shadow: 0 10px 24px rgba(59, 130, 246, 0.28);
+}
+
+.accordion-button:not(.collapsed) {
+  background: #e0f2fe;
+  color: #0f172a;
+}
+
+.progress {
+  height: 18px;
+  border-radius: 999px;
+}
+
+#demoListGroup .list-group-item {
+  transition: all 0.2s ease;
+}
+
+#demoListGroup .list-group-item.active {
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  border-color: transparent;
+  transform: translateX(4px);
+}
+
+.status-pill {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(16, 185, 129, 0.12);
+  color: #065f46;
+  font-size: 0.75rem;
+  font-weight: 700;
+}

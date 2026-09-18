@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お遊びサイト</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="bg-animation" aria-hidden="true"></div>
+
+  <div class="page-shell">
+    <nav class="navbar navbar-expand-md navbar-dark bg-transparent">
+      <div class="container">
+        <a class="navbar-brand" href="../index.html">自己紹介</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="btn btn-outline-light btn-lg ms-2" href="../../index.html">Home</a></li>
+            <li class="nav-item"><a class="btn btn-outline-light btn-lg ms-2" href="../../site-hyakka-sota/index.html">自己紹介</a></li>
+            <li class="nav-item"><a class="btn btn-outline-light btn-lg ms-2" href="../../site-works/index.html">作品</a></li>
+            <li class="nav-item"><a class="btn btn-outline-light btn-lg ms-2" href="../index.html">開発</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="hero">
+      <div class="container py-5">
+        <div class="row justify-content-center">
+          <div class="col-12 col-lg-10 text-center">
+            <p class="eyebrow">たまに遊ぶ場所</p>
+            <h1 class="display-4">お遊びサイト</h1>
+            <p class="lead">ちょっとした実験をする場所です。<br>気分で遊んで、気が向いたらまた違うことを試してみてください。</p>
+
+            <div class="toy-grid">
+              <div class="toy-card">
+                <h2>今日の運勢</h2>
+                <div id="fortune-result" class="result-box">まだ決まっていません</div>
+                <button id="fortune-btn" class="toy-button">おみくじを引く</button>
+              </div>
+
+              <div class="toy-card accent">
+                <h2>色を変える</h2>
+                <div id="color-swatch" class="swatch"></div>
+                <button id="color-btn" class="toy-button">ランダムカラー</button>
+              </div>
+
+              <div class="toy-card">
+                <h2>一言メモ</h2>
+                <div id="message-result" class="result-box">今日も最高だ！</div>
+                <button id="message-btn" class="toy-button">メッセージを変える</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
